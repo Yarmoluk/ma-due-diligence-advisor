@@ -26,10 +26,10 @@ nav:
       - Content: chapters/06-human-capital/index.md
     - 7. Post-Merger Integration Planning:
       - Content: chapters/07-integration-planning/index.md
-    - MicroSims:
+  - MicroSims:
     - Overview: sims/index.md
     - Due Diligence Checklist Tracker: sims/due-diligence-tracker/index.md
-- Glossary: glossary.md
+  - Glossary: glossary.md
   - FAQ: faq.md
   - References: references.md
   - License: license.md
