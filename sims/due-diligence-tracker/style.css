@@ -1,0 +1,18 @@
+/* Overflow styles for MicroSim iframe embedding */
+
+iframe {
+    overflow: hidden;
+}
+
+.microsim-container {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    margin: 2rem 0;
+}
+
+@media (max-width: 768px) {
+    iframe {
+        height: 900px !important;
+    }
+}

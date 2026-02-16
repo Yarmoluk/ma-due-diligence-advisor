@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Due Diligence Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght:500;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0a0a12;
+            color: #e5e7eb;
+            padding: 2rem;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .overall-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1) 0%, rgba(99, 102, 241, 0.1) 100%);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #9ca3af;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .risk-score {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+
+        .risk-low {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 2px solid #22c55e;
+        }
+
+        .risk-medium {
+            background: rgba(234, 179, 8, 0.2);
+            color: #eab308;
+            border: 2px solid #eab308;
+        }
+
+        .risk-high {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 2px solid #ef4444;
+        }
+
+        .workstreams {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .workstream {
+            background: rgba(17, 24, 39, 0.5);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .workstream:hover {
+            border-color: rgba(168, 85, 247, 0.5);
+            box-shadow: 0 4px 20px rgba(168, 85, 247, 0.15);
+        }
+
+        .workstream-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .workstream-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #a855f7;
+        }
+
+        .workstream-progress {
+            font-size: 0.875rem;
+            color: #9ca3af;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: rgba(99, 102, 241, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #a855f7 0%, #6366f1 100%);
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .checklist {
+            display: grid;
+            gap: 0.75rem;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem;
+            background: rgba(17, 24, 39, 0.8);
+            border-radius: 8px;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .checklist-item:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+
+        .checklist-item.critical {
+            border-left: 3px solid #ef4444;
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-right: 1rem;
+            cursor: pointer;
+            accent-color: #a855f7;
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .checklist-item.completed label {
+            text-decoration: line-through;
+            opacity: 0.6;
+        }
+
+        .critical-badge {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            padding: 0.25rem 0.5rem;
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border-radius: 4px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 1.75rem;
+            }
+
+            .stat-value {
+                font-size: 2rem;
+            }
+
+            .risk-score {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Due Diligence Tracker</h1>
+
+        <div class="overall-stats">
+            <div class="stat-card">
+                <div class="stat-label">Overall Completion</div>
+                <div class="stat-value" id="overall-completion">0%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Items Completed</div>
+                <div class="stat-value" id="items-completed">0/0</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Deal Risk Score</div>
+                <div class="risk-score risk-high" id="risk-score">HIGH</div>
+            </div>
+        </div>
+
+        <div class="workstreams" id="workstreams"></div>
+    </div>
+
+    <script>
+        const workstreamsData = [
+            {
+                name: "Financial",
+                items: [
+                    { text: "Review audited financial statements (3 years)", critical: true },
+                    { text: "Analyze revenue recognition policies", critical: true },
+                    { text: "Verify accounts receivable aging", critical: false },
+                    { text: "Review debt agreements and covenants", critical: true },
+                    { text: "Assess working capital requirements", critical: false },
+                    { text: "Analyze EBITDA adjustments and quality of earnings", critical: true },
+                    { text: "Review budget vs. actual variance reports", critical: false },
+                    { text: "Verify cash flow projections", critical: true }
+                ]
+            },
+            {
+                name: "Legal",
+                items: [
+                    { text: "Review corporate formation documents", critical: true },
+                    { text: "Verify ownership structure and cap table", critical: true },
+                    { text: "Review material contracts and commitments", critical: true },
+                    { text: "Assess pending or threatened litigation", critical: true },
+                    { text: "Review insurance policies and coverage", critical: false },
+                    { text: "Verify regulatory compliance and licenses", critical: true },
+                    { text: "Review employment agreements and non-competes", critical: false }
+                ]
+            },
+            {
+                name: "Operational",
+                items: [
+                    { text: "Map key business processes and workflows", critical: false },
+                    { text: "Assess supply chain dependencies and risks", critical: true },
+                    { text: "Review customer concentration (top 10)", critical: true },
+                    { text: "Evaluate operational metrics and KPIs", critical: false },
+                    { text: "Assess quality control and compliance systems", critical: false },
+                    { text: "Review vendor and supplier relationships", critical: false },
+                    { text: "Analyze capacity and scalability", critical: false }
+                ]
+            },
+            {
+                name: "Technology/IP",
+                items: [
+                    { text: "Inventory all intellectual property assets", critical: true },
+                    { text: "Verify IP ownership and registrations", critical: true },
+                    { text: "Assess technology stack and architecture", critical: false },
+                    { text: "Review software licenses and open source usage", critical: true },
+                    { text: "Evaluate cybersecurity posture and incidents", critical: true },
+                    { text: "Assess data privacy compliance (GDPR, CCPA)", critical: true },
+                    { text: "Review IT disaster recovery and backup systems", critical: false }
+                ]
+            },
+            {
+                name: "Human Capital",
+                items: [
+                    { text: "Review organizational chart and headcount", critical: false },
+                    { text: "Assess key person dependencies and retention risk", critical: true },
+                    { text: "Review compensation structure and equity plans", critical: false },
+                    { text: "Verify employee benefits and liabilities", critical: false },
+                    { text: "Assess culture and employee satisfaction", critical: false },
+                    { text: "Review HR compliance and employment practices", critical: true },
+                    { text: "Identify change-of-control provisions", critical: true }
+                ]
+            },
+            {
+                name: "Tax",
+                items: [
+                    { text: "Review tax returns (federal and state, 3 years)", critical: true },
+                    { text: "Verify tax compliance and payment history", critical: true },
+                    { text: "Assess tax contingencies and reserves", critical: true },
+                    { text: "Review transfer pricing policies", critical: false },
+                    { text: "Evaluate tax structure optimization opportunities", critical: false },
+                    { text: "Identify state and local tax nexus issues", critical: false }
+                ]
+            },
+            {
+                name: "Environmental",
+                items: [
+                    { text: "Review environmental compliance history", critical: true },
+                    { text: "Assess environmental permits and licenses", critical: true },
+                    { text: "Identify potential contamination or liability", critical: true },
+                    { text: "Review waste disposal and management practices", critical: false },
+                    { text: "Assess climate-related risks and ESG factors", critical: false }
+                ]
+            }
+        ];
+
+        function initializeTracker() {
+            const workstreamsContainer = document.getElementById('workstreams');
+
+            workstreamsData.forEach((workstream, wsIndex) => {
+                const workstreamDiv = document.createElement('div');
+                workstreamDiv.className = 'workstream';
+
+                const header = document.createElement('div');
+                header.className = 'workstream-header';
+                header.innerHTML = `
+                    <div class="workstream-title">${workstream.name}</div>
+                    <div class="workstream-progress" data-ws="${wsIndex}">0/${workstream.items.length}</div>
+                `;
+
+                const progressBar = document.createElement('div');
+                progressBar.className = 'progress-bar';
+                progressBar.innerHTML = `<div class="progress-fill" data-ws="${wsIndex}" style="width: 0%"></div>`;
+
+                const checklist = document.createElement('div');
+                checklist.className = 'checklist';
+
+                workstream.items.forEach((item, itemIndex) => {
+                    const checklistItem = document.createElement('div');
+                    checklistItem.className = `checklist-item ${item.critical ? 'critical' : ''}`;
+
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.id = `ws${wsIndex}-item${itemIndex}`;
+                    checkbox.addEventListener('change', updateProgress);
+
+                    const label = document.createElement('label');
+                    label.htmlFor = `ws${wsIndex}-item${itemIndex}`;
+                    label.textContent = item.text;
+
+                    checklistItem.appendChild(checkbox);
+                    checklistItem.appendChild(label);
+
+                    if (item.critical) {
+                        const badge = document.createElement('span');
+                        badge.className = 'critical-badge';
+                        badge.textContent = 'Critical';
+                        checklistItem.appendChild(badge);
+                    }
+
+                    checklistItem.addEventListener('click', (e) => {
+                        if (e.target.tagName !== 'INPUT') {
+                            checkbox.checked = !checkbox.checked;
+                            updateProgress();
+                        }
+                    });
+
+                    checklist.appendChild(checklistItem);
+                });
+
+                workstreamDiv.appendChild(header);
+                workstreamDiv.appendChild(progressBar);
+                workstreamDiv.appendChild(checklist);
+                workstreamsContainer.appendChild(workstreamDiv);
+            });
+
+            updateProgress();
+        }
+
+        function updateProgress() {
+            let totalItems = 0;
+            let completedItems = 0;
+            let criticalIncomplete = 0;
+
+            workstreamsData.forEach((workstream, wsIndex) => {
+                let wsCompleted = 0;
+
+                workstream.items.forEach((item, itemIndex) => {
+                    const checkbox = document.getElementById(`ws${wsIndex}-item${itemIndex}`);
+                    const checklistItem = checkbox.closest('.checklist-item');
+
+                    totalItems++;
+
+                    if (checkbox.checked) {
+                        completedItems++;
+                        wsCompleted++;
+                        checklistItem.classList.add('completed');
+                    } else {
+                        checklistItem.classList.remove('completed');
+                        if (item.critical) {
+                            criticalIncomplete++;
+                        }
+                    }
+                });
+
+                const wsProgress = (wsCompleted / workstream.items.length) * 100;
+                const progressFill = document.querySelector(`.progress-fill[data-ws="${wsIndex}"]`);
+                const progressText = document.querySelector(`.workstream-progress[data-ws="${wsIndex}"]`);
+
+                progressFill.style.width = `${wsProgress}%`;
+                progressText.textContent = `${wsCompleted}/${workstream.items.length}`;
+            });
+
+            const overallProgress = totalItems > 0 ? Math.round((completedItems / totalItems) * 100) : 0;
+            document.getElementById('overall-completion').textContent = `${overallProgress}%`;
+            document.getElementById('items-completed').textContent = `${completedItems}/${totalItems}`;
+
+            const riskScore = document.getElementById('risk-score');
+            riskScore.className = 'risk-score';
+
+            if (criticalIncomplete === 0 && overallProgress === 100) {
+                riskScore.textContent = 'LOW';
+                riskScore.classList.add('risk-low');
+            } else if (criticalIncomplete <= 3 && overallProgress >= 70) {
+                riskScore.textContent = 'MEDIUM';
+                riskScore.classList.add('risk-medium');
+            } else {
+                riskScore.textContent = 'HIGH';
+                riskScore.classList.add('risk-high');
+            }
+        }
+
+        initializeTracker();
+    </script>
+</body>
+</html>
