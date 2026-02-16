@@ -1,83 +1,72 @@
 # M&A Due Diligence Advisor
 
+AI-powered intelligent textbook for mergers and acquisitions due diligence processes.
+
 [![GitHub Pages](https://img.shields.io/badge/docs-live-brightgreen)](https://yarmoluk.github.io/ma-due-diligence-advisor/)
 [![Built with MkDocs Material](https://img.shields.io/badge/Built%20with-MkDocs%20Material-526CFE)](https://squidfunk.github.io/mkdocs-material/)
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-A practical guide to mergers and acquisitions due diligence, covering financial, legal, operational, and strategic assessment frameworks for evaluating acquisition targets.
+## Overview
 
-## Live Site
+Comprehensive AI expert system covering the complete M&A due diligence lifecycle — from deal origination and financial analysis through post-merger integration planning. Includes interactive tools for tracking due diligence workstreams and practical frameworks used by investment bankers and corporate development professionals.
 
-**[View the Guide](https://yarmoluk.github.io/ma-due-diligence-advisor/)**
+**[View the Live Site](https://yarmoluk.github.io/ma-due-diligence-advisor/)**
 
-## Features
+## Capabilities
 
-- **7 comprehensive chapters** from fundamentals through post-merger integration
-- **Interactive Due Diligence Checklist Tracker MicroSim** for practical application
-- **40+ glossary terms** covering M&A and due diligence terminology
-- **18 FAQs** addressing common due diligence challenges
-- **20+ authoritative references** including academic research and industry frameworks
-- **Practical checklists and frameworks** for conducting thorough due diligence
+### Due Diligence Workstreams
+- Financial due diligence: quality of earnings, working capital, debt analysis
+- Legal due diligence: corporate structure, contracts, litigation, regulatory compliance
+- Operational due diligence: business model analysis, customer concentration, supply chain
+- Technology and IP: patent portfolio, technical debt, cybersecurity posture
+- Human capital: retention risk, compensation analysis, cultural assessment
 
-## Chapters
+### Interactive Tools
+- **Due Diligence Checklist Tracker** — interactive Chart.js application with 44 checklist items across 7 workstreams, real-time progress bars, and dynamic deal risk scoring
+- Mermaid diagrams for deal lifecycle flowcharts and integration Gantt charts
 
-| Chapter | Topic |
-|---------|-------|
-| 1 | Due Diligence Fundamentals |
+### Reference Architecture
+- 40+ glossary terms covering M&A terminology (EBITDA, earnout, QoE, reps & warranties)
+- 18 FAQs from foundational concepts to advanced deal structuring
+- 20+ references including Harvard Business Review, Investopedia, and Wikipedia
+
+## Content Scope
+
+| Chapter | Domain |
+|---------|--------|
+| 1 | M&A Fundamentals and Deal Lifecycle |
 | 2 | Financial Due Diligence |
-| 3 | Legal Due Diligence |
+| 3 | Legal and Regulatory Due Diligence |
 | 4 | Operational Due Diligence |
-| 5 | Strategic Due Diligence |
-| 6 | Integration Planning |
-| 7 | Post-Merger Integration |
+| 5 | Technology and Intellectual Property |
+| 6 | Human Capital and Cultural Assessment |
+| 7 | Post-Merger Integration Planning |
+
+## Results
+
+- 14,500+ words of professional-depth M&A content
+- Interactive due diligence tracker with real-time risk scoring
+- Covers financial, legal, operational, technology, and human capital workstreams
+- Built without investment banking or corporate development background
 
 ## Technology Stack
 
-- **MkDocs Material** - Modern documentation framework
-- **Python** - Site generation and tooling
-- **Markdown** - Content authoring
-- **GitHub Pages** - Hosting and deployment
-- **Mermaid.js** - Interactive diagrams and visualizations
+- Claude AI with structured domain knowledge extraction
+- MkDocs Material with custom dark theme
+- Chart.js interactive simulations
+- Mermaid.js process and decision diagrams
+- GitHub Pages deployment
 
-## Getting Started
+## Note on IP Protection
 
-### Prerequisites
+This repository contains the published educational content. The underlying knowledge architecture, content generation methodology, and system design patterns are proprietary.
 
-- Python 3.8 or higher
-- pip (Python package manager)
+## Contact
 
-### Local Development
+**Daniel Yarmoluk**
+AI Transformation Leader
+[LinkedIn](https://www.linkedin.com/in/danyarmoluk/)
 
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Yarmoluk/ma-due-diligence-advisor.git
-   cd ma-due-diligence-advisor
-   ```
+---
 
-2. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-3. Serve locally:
-   ```bash
-   mkdocs serve
-   ```
-
-4. Open your browser to `http://127.0.0.1:8000`
-
-### Building the Site
-
-```bash
-mkdocs build
-```
-
-The static site will be generated in the `site/` directory.
-
-## License
-
-This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
-
-## Repository
-
-GitHub: [https://github.com/Yarmoluk/ma-due-diligence-advisor](https://github.com/Yarmoluk/ma-due-diligence-advisor)
+*Demonstrating AI expert system development across any domain — from zero M&A experience to comprehensive due diligence reference system.*
