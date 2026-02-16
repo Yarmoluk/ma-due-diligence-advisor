@@ -1,0 +1,108 @@
+site_name: M&A Due Diligence Advisor
+site_description: A comprehensive guide to mergers and acquisitions due diligence processes, checklists, and best practices.
+site_author: Daniel Yarmoluk
+repo_name: GitHub Repo
+site_url: https://yarmoluk.github.io/ma-due-diligence-advisor/
+repo_url: https://github.com/Yarmoluk/ma-due-diligence-advisor
+edit_uri: edit/main/docs/
+
+nav:
+  - Home: index.md
+  - About: about.md
+  - Course Description: course-description.md
+  - Chapters:
+    - Overview: chapters/index.md
+    - 1. M&A Fundamentals and Deal Lifecycle:
+      - Content: chapters/01-ma-fundamentals/index.md
+    - 2. Financial Due Diligence:
+      - Content: chapters/02-financial-due-diligence/index.md
+    - 3. Legal and Regulatory Due Diligence:
+      - Content: chapters/03-legal-due-diligence/index.md
+    - 4. Operational Due Diligence:
+      - Content: chapters/04-operational-due-diligence/index.md
+    - 5. Technology and Intellectual Property:
+      - Content: chapters/05-technology-and-ip/index.md
+    - 6. Human Capital and Cultural Assessment:
+      - Content: chapters/06-human-capital/index.md
+    - 7. Post-Merger Integration Planning:
+      - Content: chapters/07-integration-planning/index.md
+    - MicroSims:
+    - Overview: sims/index.md
+    - Due Diligence Checklist Tracker: sims/due-diligence-tracker/index.md
+- Glossary: glossary.md
+  - FAQ: faq.md
+  - References: references.md
+  - License: license.md
+  - Contact: contact.md
+
+theme:
+  name: material
+  favicon: img/favicon.svg
+  custom_dir: docs/overrides
+  features:
+    - content.code.copy
+    - navigation.expand
+    - navigation.path
+    - navigation.prune
+    - navigation.indexes
+    - toc.follow
+    - navigation.top
+    - navigation.footer
+    - content.action.edit
+  palette:
+    - scheme: slate
+      primary: custom
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+    - scheme: default
+      primary: custom
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+extra_css:
+  - css/extra.css
+
+extra_javascript:
+  - js/extra.js
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.mark
+  - pymdownx.tilde
+  - tables
+  - toc:
+      permalink: true
+      toc_depth: 3
+
+extra:
+  generator: false
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Yarmoluk/ma-due-diligence-advisor
+
+copyright: Copyright &copy; 2026 Daniel Yarmoluk | All rights reserved.
